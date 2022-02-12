@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from PIL import Image
+'''where i  left off I was looking to see if the imageio library could write 16-bit color pngs for more color depth.'''
 import click
 
 @click.command()
