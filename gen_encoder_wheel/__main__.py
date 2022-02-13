@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from PIL import Image
+from imageio import v3 as iio
 '''where i  left off I was looking to see if the imageio library could write 16-bit color pngs for more color depth.'''
 import click
 
