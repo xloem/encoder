@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-from PIL import Image
 from imageio import v3 as iio
-'''where i  left off I was looking to see if the imageio library could write 16-bit color pngs for more color depth.'''
+import numpy as np
 import click
 
 @click.command()
@@ -12,6 +11,22 @@ import click
 def generate(size, ratio, dpi, output):
     height = size * dpi
     width = height * ratio
+    img = np.random.randint(0,0xffff,size=(int(width+.5),height,3),dtype=np.uint16)
+    return write(output, img)
+
+def write(fn, ndimg):
+    first_exc = None
+    for plugin, filt in (
+            ('PNG-FI', lambda x:(x,)),
+            (None, lambda x:x),
+            ('PNG-ITK', lambda x:x)
+    ):
+        try:
+            return iio.imwrite(fn, filt(ndimg), plugin=plugin)
+        except Exception as e:
+            if first_exc is None:
+                first_exc = e
+    raise first_exc
 
 if __name__ == '__main__':
     generate()
